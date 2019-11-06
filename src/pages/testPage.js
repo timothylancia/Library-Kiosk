@@ -9,6 +9,12 @@ export class testPage extends React.Component {
         return (
             <div>
                 <h1>test</h1>
+
+                <rect color="#990000" height="50px" width="100%"/>
+
+                <svg width="500" height="140" style={{fill:"#000"}}>
+                    <rect width="300" height="100" style={{fill:"#990000"}}/>
+                </svg>
             
 
             <Alert show={this.show} variant="success">

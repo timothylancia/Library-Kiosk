@@ -12,8 +12,8 @@ import WEPASupport from './pages/WEPASupport';
 class App extends React.Component {
   render() {
     return (
-      <div className="demo-big-content">
-        <Layout>
+      <div className="demo-big-content" >
+        <Layout >
             <Header title="Library Help Kiosk" scroll>
                 <Navigation>
                     <Link to="/APUSupport">APU Support Chat</Link>

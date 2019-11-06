@@ -35,3 +35,11 @@
     width: 150px;
     border-radius: 50%;
   }
+
+  /* Style the image inside the centered container, if needed */
+  .leftA {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    text-align: left;
+  }

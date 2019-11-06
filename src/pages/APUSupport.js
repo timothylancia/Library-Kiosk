@@ -5,6 +5,7 @@ import Iframe from 'react-iframe';
 import IdleTimer from 'react-idle-timer';
 import { IdleTimeOutModal } from '../components/IdleModal'
 import {Container, Row, Col} from 'react-bootstrap'
+import './home.css';
 // import { reset } from 'ansi-colors';
 
 // const frame = document.createElement('Iframe');
@@ -87,26 +88,49 @@ export class APUSupport extends React.Component {
 
     render() {
         return (
+            // <div>
+            //     {this.runTimer()}
+            //     <Container>
+            //         <Row>
+            //             <Col>
+            //         <h1 style={{marginRight: "200px"}}>APU Support Chat Page</h1>
+            //         <Link to="/">
+            //             <Button raised>Home</Button>
+            //         </Link>
+            //         </Col>
+
+            //         <Col>
+            //             {/*<Iframe url={APUSupportLink}
+            //                 width="600px"
+            //                 height="900px"/>*/}
+            //                 <iframe src={APUSupportLink} 
+            //                     width="100%"
+            //                     height="900px"/>
+            //         </Col>
+            //         </Row>
+                    
+            //     </Container>
+
+            //     {this.displayModal()}
+            // </div>
             <div>
                 {this.runTimer()}
-                <Container>
-                    <Row>
-                        <Col>
-                    <h1>APU Support Chat Page</h1>
+                <div class="split left">
+                    <iframe src={APUSupportLink} 
+                        width="650px"
+                        height="900px"
+                        style={{marginTop: "40px"}}/>
+                </div>
+                <div class="split right">
+                    <div class="centered">
+                    <h1>APU Support Chat</h1>
+                    <p>This chat connects you directly to a APU support representative that can answer any questions you may have concerning lab computers or account issues.</p>
+                    <p>This page will refresh after 5 minutes of inactivity.</p>
                     <Link to="/">
-                        <Button raised>Home</Button>
-                    </Link>
-                    </Col>
-
-                    <Col>
-                        <Iframe url={APUSupportLink}
-                            width="600px"
-                            height="900px"/>
-                    </Col>
-                    </Row>
-                    
-                </Container>
-
+                         <Button raised>Home</Button>
+                     </Link>
+                    </div>
+                </div>
                 {this.displayModal()}
             </div>
         )
@@ -117,9 +141,7 @@ export class APUSupport extends React.Component {
             console.log('user did something', e)
             // console.log('time remaining', this.idleTimer.getRemainingTime())
 
-            if (!this.showModal){
-                this.setState({isTimedOut: false})
-            }
+            this.setState({isTimedOut: false})
         }
     }
      
