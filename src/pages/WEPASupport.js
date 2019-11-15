@@ -1,58 +1,191 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import React from "react";
+import { Button } from "react-mdl";
+import { Link } from "react-router-dom";
+import IdleTimer from "react-idle-timer";
+import { IdleTimeOutModal } from "../components/IdleModal";
+import "./home.css";
 
-{/*  */}
+// URL for iframe
+const WEPASupportPage = "https://support.wepanow.com/";
 
-const WEPALink = "https://wepa.ladesk.com/scripts/generateWidget.php?v=5.15.10.5&t=1571154394&cwid=b8b00bd3&cwt=chat_popout&cid=N14O0RCiYJF409sy&vid=4rruri2tzhwq9do9sru159rjec52i"
+//////////////////////////////////////////////////////
+/* Styles                                           */
+//////////////////////////////////////////////////////
+const iframeStyle = {
+  marginTop: "60px"
+};
+const leftDiv = {
+  flex: 1,
+  width: "50vw",
+  height: "94vh"
+};
+const rightDiv = {
+  flex: 1
+};
+const buttonStyle = {
+  marginTop: 15
+};
+const leftText = {
+  marginTop: "30vh",
+  textAlign: "center",
+  fontSize: 56,
+  fontWeight: "bold"
+};
+const paragraphStyle = {
+  marginTop: 25,
+  marginLeft: 150,
+  marginRight: 150,
+  textAlign: "center",
+  fontSize: 24,
+  color: "#808080"
+};
 
+//////////////////////////////////////////////////////
+/* Wepa Support Page                                */
+//////////////////////////////////////////////////////
 export class WEPASupport extends React.Component {
-    state = {
-        show: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      // Minutes before timeout
+      timeIdle: 5,
+
+      // Is modal showing
+      showModal: false,
+      isIdle: false
+    };
+    this.idleTimer = null;
+    this.onAction = this._onAction.bind(this);
+    this.onActive = this._onActive.bind(this);
+    this.onIdle = this._onIdle.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  // If modal is closed by the user
+  // Restart timeout timer
+  handleClose() {
+    this.setState({ showModal: false, timeIdle: 5 });
+  }
+
+  // If user is inactive, go back to home page
+  handleLogout() {
+    this.setState({ showModal: false });
+    this.props.history.push("/");
+  }
+
+  // Display modal after time
+  displayModal() {
+    if (this.state.showModal) {
+      return (
+        <IdleTimeOutModal
+          showModal={this.state.showModal}
+          handleClose={this.handleClose}
+          handleLogout={this.handleLogout}
+        />
+      );
+    } else {
+      return null;
     }
+  }
 
-    handleClose = () => this.setState({ show: false });
-    handleShow = () => this.setState({ show: true });
+  // Starts timeout timer
+  runTimer() {
+    return (
+      <IdleTimer
+        ref={ref => {
+          this.idleTimer = ref;
+        }}
+        element={document}
+        onActive={this.onActive}
+        onIdle={this.onIdle}
+        onAction={this.onAction}
+        debounce={250}
+        timeout={1000 * 60 * this.state.timeIdle}
+      />
+    );
+  }
 
-    Example() {
-        return(
+  //////////////////////////////////////////////////////
+  /* JSX Render Page                                  */
+  //////////////////////////////////////////////////////
+  render() {
+    return (
+      // Encompasing Div
+      <div className="flexRow" id="wepaPage">
+        {/* Start TImeout Timer */}
+        {this.runTimer()}
 
-        <div>
-      
-      <Button variant="primary" onClick={this.handleShow}>
-        Launch demo modal
-      </Button>
+        {/* Left Side of Page (text) */}
+        <div style={leftDiv}>
+          <h1 style={leftText}>WEPA Support</h1>
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-            <Modal.Title>You Have Been Idle!</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>You Will Get Timed Out. Do you want to stay?</Modal.Body>
-            <Modal.Footer>
-            <Button variant="danger" onClick={this.handleLogout}>
-                Home
+          <p style={paragraphStyle}>
+            This is WEPA's support page. Please feel free to use the live chat
+            to connect directly to a WEPA support representative. If the live
+            chat is not available, please search for the problem using the
+            search bar. If you still need assistance please try the APU Support
+            Chat or call (626)855-5050.
+          </p>
+          <p style={{ textAlign: "center", marginTop: 25 }}>
+            This page will timeout after 5 minutes of inactivity.
+          </p>
+          <Link to="/">
+            <Button raised className="centered" style={buttonStyle}>
+              Home
             </Button>
-            <Button variant="primary" onClick={this.handleClose}>
-                Stay
-            </Button>
-            </Modal.Footer>
-        </Modal>
+          </Link>
         </div>
-        )
-    }
 
-    render() {
-        return (
-            <div>
-                {this.Example()}
-                <h1>WEPA Support Chat Page</h1>
-                <Link to="/">
-                    <Button variant="primary">Home</Button>
-                </Link>
-            </div>
-        )
+        {/* Right Side of Page (iframe) */}
+        <div style={rightDiv}>
+          <iframe
+            id="wepaWidget"
+            title="wepaWidget"
+            src={WEPASupportPage}
+            width="100%"
+            height="100%"
+            style={{ iframeStyle }}
+          />
+        </div>
+
+        {/* Calls method to display modal */}
+        {this.displayModal()}
+      </div>
+    );
+  }
+
+  //////////////////////////////////////////////////////
+  /* Event Listener Actions                           */
+  //////////////////////////////////////////////////////
+  _onAction(e) {
+    // User did something
+    console.log("user did something", e);
+    this.setState({ isIdle: false });
+  }
+
+  _onActive(e) {
+    console.log("user is active", e);
+    if (!this.showModal) {
+      this.setState({ isIdle: false });
     }
+  }
+
+  // If timeout timer runs out, it checks to see if the moda is visable
+  // If modal is visable, go back to home page
+  // Else, set showModal to true and set timeout timer to 1 minute
+  _onIdle(e) {
+    console.log("user is idle", e);
+    const isIdle = this.state.isIdle;
+    if (isIdle) {
+      this.props.history.push("/");
+    } else {
+      this.setState({ showModal: true });
+      this.setState({ timeIdle: 1 });
+      this.idleTimer.reset();
+      this.setState({ isIdle: true });
+    }
+  }
 }
 
 export default WEPASupport;
