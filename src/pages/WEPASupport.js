@@ -17,7 +17,7 @@ const iframeStyle = {
 const leftDiv = {
   flex: 1,
   width: "50vw",
-  height: "94vh"
+  height: "93vh"
 };
 const rightDiv = {
   flex: 1
@@ -26,15 +26,15 @@ const buttonStyle = {
   marginTop: 15
 };
 const leftText = {
-  marginTop: "30vh",
+  marginTop: "25%",
   textAlign: "center",
   fontSize: 56,
   fontWeight: "bold"
 };
 const paragraphStyle = {
   marginTop: 25,
-  marginLeft: 150,
-  marginRight: 150,
+  marginLeft: "20%",
+  marginRight: "20%",
   textAlign: "center",
   fontSize: 24,
   color: "#808080"
@@ -123,9 +123,9 @@ export class WEPASupport extends React.Component {
           <p style={paragraphStyle}>
             This is WEPA's support page. Please feel free to use the live chat
             to connect directly to a WEPA support representative. If the live
-            chat is not available, please search for the problem using the
-            search bar. If you still need assistance please try the APU Support
-            Chat or call (626)855-5050.
+            chat is not available, please try browsing the support page for
+            help. If you still need assistance please try the APU Support Chat
+            or call (626)855-5050 and talk to a APU Support representative.
           </p>
           <p style={{ textAlign: "center", marginTop: 25 }}>
             This page will timeout after 5 minutes of inactivity.

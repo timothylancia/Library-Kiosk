@@ -1,16 +1,23 @@
 import React from "react";
-// import logo from './logo.svg';
-import "./App.css";
+
 import Main from "./pages/main";
-import "./pages/home.css";
 import APULogo from "./assets/APULogo.png";
 
-import { Link, Route } from "react-router-dom";
+//////////////////////////////////////////////////////
+/* Styles                                           */
+//////////////////////////////////////////////////////
+import "./pages/home.css";
+import "./App.css";
 
-// Links to respective chat widget
-
-const headerCont = {
+const headerStyle = {
+  flex: 1,
   backgroundColor: "#990000",
+  height: "59px",
+  width: "100%"
+};
+const footerStyle = {
+  flex: 1,
+  backgroundColor: "#8d9093",
   height: "59px",
   width: "100%"
 };
@@ -29,27 +36,32 @@ const Name = {
 const headerLinks = {
   flex: 1
 };
+const buttonStyle = {
+  float: "right",
+  marginRight: "25px",
+  backgroundColor: "#990000",
+  color: "#fff",
+  fontSize: 18,
+  fontWeight: "bold"
+};
 
+//////////////////////////////////////////////////////
+/* Header and Main                                  */
+//////////////////////////////////////////////////////
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <div className="headerContainer" id="header" style={headerCont}>
+      <div className="flexColumn" id="container">
+        <div className="headerContainer" id="header" style={headerStyle}>
           <div>
-            <a href="/">
+            <a href="/" style={{ color: "#990000" }}>
               <h1 style={Name}>Library Help Kiosk</h1>
             </a>
           </div>
           <div style={headerLinks}>
-            <div>
-              <a href="/">
-                <img src={APULogo} style={Logo}></img>
-              </a>
-            </div>
-            {/* <a href="/APUSupport">
-              <p style={linkStyle}>APU Support Chat</p>
+            <a href="/">
+              <img src={APULogo} style={Logo}></img>
             </a>
-            <a href="/WEPASupport"><p style={linkStyle}>WEPA Support Page</p></a> */}
           </div>
         </div>
         <Main></Main>

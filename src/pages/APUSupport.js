@@ -18,7 +18,7 @@ const iframeStyle = {
 const leftDiv = {
   flex: 1,
   width: "50vw",
-  height: "94vh"
+  height: "93vh"
 };
 const rightDiv = {
   flex: 1
@@ -27,15 +27,15 @@ const buttonStyle = {
   marginTop: 15
 };
 const leftText = {
-  marginTop: "30vh",
+  marginTop: "25%",
   textAlign: "center",
   fontSize: 56,
   fontWeight: "bold"
 };
 const paragraphStyle = {
   marginTop: 25,
-  marginLeft: 150,
-  marginRight: 150,
+  marginLeft: "20%",
+  marginRight: "20%",
   textAlign: "center",
   fontSize: 24,
   color: "#808080"
