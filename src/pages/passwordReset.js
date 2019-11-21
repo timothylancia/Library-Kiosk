@@ -62,16 +62,6 @@ export class passwordReset extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  //   catch() {
-  //     if (n < 2) {
-  //       n = n + 1;
-  //     }
-  //     if (n == 3) {
-  //       this.props.history.push("/APUSupport");
-  //     }
-  //     console.log(n);
-  //   }
-
   passIframe() {
     try {
       return (

@@ -52,6 +52,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="flexColumn" id="container">
+        {/* HEADER */}
         <div className="headerContainer" id="header" style={headerStyle}>
           <div>
             <a href="/" style={{ color: "#990000" }}>
@@ -64,6 +65,8 @@ class App extends React.Component {
             </a>
           </div>
         </div>
+
+        {/* Calls page based on navigation */}
         <Main></Main>
       </div>
     );

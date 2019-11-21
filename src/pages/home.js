@@ -13,6 +13,9 @@ import computer from "../assets/desktop_windows-24px.svg";
 
 import "./home.css";
 
+//////////////////////////////////////////////////////
+/* Styles                                           */
+//////////////////////////////////////////////////////
 const containerStyle = {
   width: "100%",
   height: "88vh"
@@ -66,6 +69,7 @@ export class home extends React.Component {
     return (
       <Container fluid="true" style={containerStyle}>
         <Row>
+          {/* Left Side, WEPA Support */}
           <Col className="left" id="printer" style={colStyle}>
             <Link to="/WEPASupport" style={linkStyle}>
               <div style={centerItem}>
@@ -85,6 +89,8 @@ export class home extends React.Component {
               </div>
             </Link>
           </Col>
+
+          {/* Right Side, APU Support */}
           <Col id="right" style={colStyle}>
             <Link to="/APUSupport" style={linkStyle}>
               <div style={centerItem}>
@@ -105,6 +111,8 @@ export class home extends React.Component {
             </Link>
           </Col>
         </Row>
+
+        {/* Password Reset Button */}
         <div style={centerDiv}>
           <Link to="/passwordReset">
             <Button raised style={buttonStyle}>
