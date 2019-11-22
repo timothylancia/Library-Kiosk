@@ -40,6 +40,11 @@ const paragraphStyle = {
   fontSize: 24,
   color: "#808080"
 };
+const centerDiv = {
+  display: "flex",
+  justifyContent: "center",
+  width: "100%"
+};
 
 //////////////////////////////////////////////////////
 /* APU Support Page                                 */
@@ -127,11 +132,13 @@ export class APUSupport extends React.Component {
           <p style={{ textAlign: "center", marginTop: 25 }}>
             This page will timeout after 5 minutes of inactivity.
           </p>
-          <Link to="/">
-            <Button raised className="centered" style={buttonStyle}>
-              Home
-            </Button>
-          </Link>
+          <div style={centerDiv}>
+            <Link to="/">
+              <Button raised style={buttonStyle}>
+                Home
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Right Side of Page (iframe) */}
