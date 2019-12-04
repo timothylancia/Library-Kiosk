@@ -1,0 +1,51 @@
+/* Border for left div */
+.left {
+  background-color: "#fff";
+  border-right: 2px;
+  border-right-style: solid;
+  border-right-color: #cccccc;
+}
+
+/* Border for right div */
+.right {
+  background-color: "#fff";
+  border-left: 2px;
+  border-left-style: solid;
+  border-left-color: #cccccc;
+}
+
+/* If you want the content centered horizontally and vertically */
+.centered {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Apllies flex to div */
+.flexColumn {
+  display: flex;
+  flex-flow: column;
+}
+
+.flexRow {
+  display: flex;
+  flex-flow: row;
+}
+
+/* Centers items by type */
+.centeredText {
+  text-align: center;
+}
+
+.centeredIcon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.centerContainer {
+  display: block;
+  margin-top: auto;
+  margin-bottom: auto;
+}

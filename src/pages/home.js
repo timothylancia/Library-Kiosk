@@ -11,7 +11,7 @@ import { Button } from "react-mdl";
 import printer from "../assets/print-24px.svg";
 import computer from "../assets/desktop_windows-24px.svg";
 
-import "./home.css";
+import "./styles.css";
 
 //////////////////////////////////////////////////////
 /* Styles                                           */

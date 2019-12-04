@@ -3,10 +3,11 @@ import { Button } from "react-mdl";
 import { Link } from "react-router-dom";
 import IdleTimer from "react-idle-timer";
 import { IdleTimeOutModal } from "../components/IdleModal";
-import "./home.css";
+import "./styles.css";
+import { delay } from "q";
 
-// URL for iframe
-const WEPASupportPage = "https://support.wepanow.com/";
+// Input your own link to for the iframe
+const WEPASupportPage = process.env.REACT_APP_SUPPORT_LINK_1;
 
 //////////////////////////////////////////////////////
 /* Styles                                           */
@@ -39,11 +40,6 @@ const paragraphStyle = {
   fontSize: 24,
   color: "#808080"
 };
-const centerDiv = {
-  display: "flex",
-  justifyContent: "center",
-  width: "100%"
-};
 
 //////////////////////////////////////////////////////
 /* Wepa Support Page                                */
@@ -53,7 +49,9 @@ export class WEPASupport extends React.Component {
     super(props);
     this.state = {
       // Minutes before timeout
-      timeIdle: 5,
+      timeIdle: 0.1,
+
+      firstTime: true,
 
       // Is modal showing
       showModal: false,
@@ -70,7 +68,7 @@ export class WEPASupport extends React.Component {
   // If modal is closed by the user
   // Restart timeout timer
   handleClose() {
-    this.setState({ showModal: false, timeIdle: 5 });
+    this.setState({ showModal: false, timeIdle: 0.2 });
   }
 
   // If user is inactive, go back to home page
@@ -96,19 +94,38 @@ export class WEPASupport extends React.Component {
 
   // Starts timeout timer
   runTimer() {
-    return (
-      <IdleTimer
-        ref={ref => {
-          this.idleTimer = ref;
-        }}
-        element={document}
-        onActive={this.onActive}
-        onIdle={this.onIdle}
-        onAction={this.onAction}
-        debounce={250}
-        timeout={1000 * 60 * this.state.timeIdle}
-      />
-    );
+    if (this.state.firstTime) {
+      this.setState({ firstTime: false });
+      return (
+        <IdleTimer
+          ref={ref => {
+            this.idleTimer = ref;
+          }}
+          element={document}
+          onActive={this.onActive}
+          onIdle={this.onIdle}
+          onAction={this.onAction}
+          debounce={250}
+          timeout={1000 * 60 * this.state.timeIdle}
+        />
+      );
+    } else {
+      console.log("time remaining", this.idleTimer.getRemainingTime());
+      console.log(this.state.timeIdle);
+      return (
+        <IdleTimer
+          ref={ref => {
+            this.idleTimer = ref;
+          }}
+          element={document}
+          onActive={this.onActive}
+          onIdle={this.onIdle}
+          onAction={this.onAction}
+          debounce={250}
+          timeout={1000 * 60 * this.state.timeIdle}
+        />
+      );
+    }
   }
 
   //////////////////////////////////////////////////////
@@ -118,11 +135,11 @@ export class WEPASupport extends React.Component {
     return (
       // Encompasing Div
       <div className="flexRow" id="wepaPage">
-        {/* Start TImeout Timer */}
+        {/* Start Timeout Timer */}
         {this.runTimer()}
 
         {/* Left Side of Page (text) */}
-        <div style={leftDiv}>
+        <div style={leftDiv} className="left" id="l">
           <h1 style={leftText}>WEPA Support</h1>
 
           <p style={paragraphStyle}>
@@ -135,13 +152,16 @@ export class WEPASupport extends React.Component {
           <p style={{ textAlign: "center", marginTop: 25 }}>
             This page will timeout after 5 minutes of inactivity.
           </p>
-          <div style={centerDiv}>
-            <Link to="/">
-              <Button raised style={buttonStyle}>
-                Home
-              </Button>
-            </Link>
-          </div>
+          <Link to="/">
+            <Button
+              raised
+              className="centered"
+              style={buttonStyle}
+              id="homeBtn"
+            >
+              Home
+            </Button>
+          </Link>
         </div>
 
         {/* Right Side of Page (iframe) */}
@@ -169,13 +189,13 @@ export class WEPASupport extends React.Component {
     // User did something
     console.log("user did something", e);
     this.setState({ isIdle: false });
+    console.log("time remaining", this.idleTimer.getRemainingTime());
   }
 
   _onActive(e) {
     console.log("user is active", e);
-    if (!this.showModal) {
-      this.setState({ isIdle: false });
-    }
+    this.setState({ isIdle: false });
+    console.log("time remaining", this.idleTimer.getRemainingTime());
   }
 
   // If timeout timer runs out, it checks to see if the moda is visable
@@ -183,14 +203,22 @@ export class WEPASupport extends React.Component {
   // Else, set showModal to true and set timeout timer to 1 minute
   _onIdle(e) {
     console.log("user is idle", e);
-    const isIdle = this.state.isIdle;
-    if (isIdle) {
+    if (this.state.isIdle) {
+      console.log("2");
+      console.log(this.state.timeIdle);
       this.props.history.push("/");
     } else {
-      this.setState({ showModal: true });
-      this.setState({ timeIdle: 1 });
-      this.idleTimer.reset();
-      this.setState({ isIdle: true });
+      if (this.state.showModal) {
+        console.log("3");
+        this.props.history.push("/");
+      } else {
+        this.setState({ showModal: true, isIdle: true, timeIdle: 0.5 });
+        console.log("1");
+        delay(600);
+        if (this.state.showModal) {
+          this.props.history.push("/");
+        }
+      }
     }
   }
 }

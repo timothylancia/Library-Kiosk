@@ -3,12 +3,11 @@ import { Button } from "react-mdl";
 import { Link } from "react-router-dom";
 import IdleTimer from "react-idle-timer";
 import { IdleTimeOutModal } from "../components/IdleModal";
-import "./home.css";
+import "./styles.css";
 import { checkPropTypes } from "prop-types";
 
-// URL for iframe
-const passwordResetLink =
-  "https://den.apu.edu/idm/passwordResetIdentification.action";
+// Input your own link to for the iframe
+const passwordResetLink = process.env.REACT_APP_PASSWOR_RESET_LINK;
 
 //////////////////////////////////////////////////////
 /* Styles                                           */

@@ -3,11 +3,10 @@ import { Button } from "react-mdl";
 import { Link } from "react-router-dom";
 import IdleTimer from "react-idle-timer";
 import { IdleTimeOutModal } from "../components/IdleModal";
-import "./home.css";
+import "./styles.css";
 
-// URL for iframe
-const APUSupportLink =
-  "https://static.zdassets.com/web_widget/latest/liveChat.html?v=10#key=apu.zendesk.com&settings=JTdCJTIyd2ViV2lkZ2V0JTIyJTNBJTdCJTIyY2hhdCUyMiUzQSU3QiUyMnRpdGxlJTIyJTNBbnVsbCUyQyUyMmRlcGFydG1lbnRzJTIyJTNBJTdCJTdEJTJDJTIycHJlY2hhdEZvcm0lMjIlM0ElN0IlMjJkZXBhcnRtZW50TGFiZWwlMjIlM0FudWxsJTJDJTIyZ3JlZXRpbmclMjIlM0FudWxsJTdEJTJDJTIyb2ZmbGluZUZvcm0lMjIlM0ElN0IlMjJncmVldGluZyUyMiUzQW51bGwlN0QlMkMlMjJjb25jaWVyZ2UlMjIlM0ElN0IlMjJhdmF0YXJQYXRoJTIyJTNBbnVsbCUyQyUyMm5hbWUlMjIlM0FudWxsJTJDJTIydGl0bGUlMjIlM0FudWxsJTdEJTdEJTJDJTIyY29sb3IlMjIlM0ElN0IlMjJhcnRpY2xlTGlua3MlMjIlM0ElMjIlMjIlMkMlMjJidXR0b24lMjIlM0ElMjIlMjIlMkMlMjJoZWFkZXIlMjIlM0ElMjIlMjIlMkMlMjJsYXVuY2hlciUyMiUzQSUyMiUyMiUyQyUyMmxhdW5jaGVyVGV4dCUyMiUzQSUyMiUyMiUyQyUyMnJlc3VsdExpc3RzJTIyJTNBJTIyJTIyJTJDJTIydGhlbWUlMjIlM0FudWxsJTdEJTdEJTdE&&locale=en-US&title=Web%20Widget%20Live%20Chat";
+// Input your own link to for the iframe
+const APUSupportLink = process.env.REACT_APP_SUPPORT_LINK_2;
 
 //////////////////////////////////////////////////////
 /* Styles                                           */
@@ -39,11 +38,6 @@ const paragraphStyle = {
   textAlign: "center",
   fontSize: 24,
   color: "#808080"
-};
-const centerDiv = {
-  display: "flex",
-  justifyContent: "center",
-  width: "100%"
 };
 
 //////////////////////////////////////////////////////
@@ -120,8 +114,20 @@ export class APUSupport extends React.Component {
         {/* Start TImeout Timer */}
         {this.runTimer()}
 
-        {/* Left Side of Page (text) */}
+        {/* Left Side of Page (iframe) */}
         <div style={leftDiv}>
+          <iframe
+            id="apuWidget"
+            title="apuWidget"
+            src={APUSupportLink}
+            width="100%"
+            height="100%"
+            style={{ iframeStyle }}
+          />
+        </div>
+
+        {/* Right Side of Page (text) */}
+        <div style={rightDiv} className="right" id="r">
           <h1 style={leftText}>APU Support</h1>
           <p style={paragraphStyle}>
             This chat connects you straight to an APU Support representative who
@@ -132,25 +138,16 @@ export class APUSupport extends React.Component {
           <p style={{ textAlign: "center", marginTop: 25 }}>
             This page will timeout after 5 minutes of inactivity.
           </p>
-          <div style={centerDiv}>
-            <Link to="/">
-              <Button raised style={buttonStyle}>
-                Home
-              </Button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Right Side of Page (iframe) */}
-        <div style={rightDiv}>
-          <iframe
-            id="apuWidget"
-            title="apuWidget"
-            src={APUSupportLink}
-            width="100%"
-            height="100%"
-            style={{ iframeStyle }}
-          />
+          <Link to="/">
+            <Button
+              raised
+              className="centered"
+              style={buttonStyle}
+              id="homeBtn"
+            >
+              Home
+            </Button>
+          </Link>
         </div>
 
         {/* Calls method to display modal */}
@@ -185,9 +182,9 @@ export class APUSupport extends React.Component {
     } else {
       this.setState({ showModal: true });
       this.setState({ timeIdle: 1 });
+      this.setState({ isIdle: true });
       this.idleTimer.reset();
       console.log("time remaining", this.idleTimer.getRemainingTime());
-      this.setState({ isIdle: true });
     }
   }
 }

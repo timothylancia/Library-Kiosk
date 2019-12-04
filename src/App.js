@@ -6,18 +6,12 @@ import APULogo from "./assets/APULogo.png";
 //////////////////////////////////////////////////////
 /* Styles                                           */
 //////////////////////////////////////////////////////
-import "./pages/home.css";
+import "./pages/styles.css";
 import "./App.css";
 
 const headerStyle = {
   flex: 1,
   backgroundColor: "#990000",
-  height: "59px",
-  width: "100%"
-};
-const footerStyle = {
-  flex: 1,
-  backgroundColor: "#8d9093",
   height: "59px",
   width: "100%"
 };
@@ -36,14 +30,9 @@ const Name = {
 const headerLinks = {
   flex: 1
 };
-const buttonStyle = {
-  float: "right",
-  marginRight: "25px",
-  backgroundColor: "#990000",
-  color: "#fff",
-  fontSize: 18,
-  fontWeight: "bold"
-};
+
+// Input your own name
+const kioskName = process.env.REACT_APP_YOUR_KIOSK_NAME;
 
 //////////////////////////////////////////////////////
 /* Header and Main                                  */
@@ -53,10 +42,10 @@ class App extends React.Component {
     return (
       <div className="flexColumn" id="container">
         {/* HEADER */}
-        <div className="headerContainer" id="header" style={headerStyle}>
+        <div className="flexRow" id="header" style={headerStyle}>
           <div>
             <a href="/" style={{ color: "#990000" }}>
-              <h1 style={Name}>Library Help Kiosk</h1>
+              <h1 style={Name}>{kioskName}</h1>
             </a>
           </div>
           <div style={headerLinks}>
