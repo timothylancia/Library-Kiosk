@@ -1,10 +1,8 @@
 import React from "react";
-import { Button } from "react-mdl";
 import { Link } from "react-router-dom";
 import IdleTimer from "react-idle-timer";
 import { IdleTimeOutModal } from "../components/IdleModal";
 import "./styles.css";
-import { checkPropTypes } from "prop-types";
 
 // Input your own link to for the iframe
 const passwordResetLink = process.env.REACT_APP_PASSWOR_RESET_LINK;
@@ -19,25 +17,13 @@ const rightDiv = {
   flex: 1,
   height: "89vh"
 };
-const buttonStyle = {
-  marginTop: 15
-};
-const leftText = {
-  marginTop: "30vh",
-  textAlign: "center",
-  fontSize: 56,
-  fontWeight: "bold"
-};
-const paragraphStyle = {
-  marginTop: 25,
-  marginLeft: "25%",
-  marginRight: "25%",
-  textAlign: "center",
-  fontSize: 24,
-  color: "#808080"
-};
 
-let n = 0;
+//////////////////////////////////////////////////////
+/* Function to make function sleep                  */
+//////////////////////////////////////////////////////
+const sleep = milliseconds => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+};
 
 //////////////////////////////////////////////////////
 /* Wepa Support Page                                */
@@ -81,7 +67,7 @@ export class passwordReset extends React.Component {
   // If modal is closed by the user
   // Restart timeout timer
   handleClose() {
-    this.setState({ showModal: false, timeIdle: 5 });
+    this.setState({ showModal: false });
   }
 
   // If user is inactive, go back to home page
@@ -132,7 +118,7 @@ export class passwordReset extends React.Component {
         {/* Start TImeout Timer */}
         {this.runTimer()}
 
-        {/* Right Side of Page (iframe) */}
+        {/* Iframe */}
         <div style={rightDiv}>{this.passIframe()}</div>
 
         <p style={{ marginLeft: 5 }}>
@@ -168,14 +154,19 @@ export class passwordReset extends React.Component {
   // Else, set showModal to true and set timeout timer to 1 minute
   _onIdle(e) {
     console.log("user is idle", e);
-    const isIdle = this.state.isIdle;
-    if (isIdle) {
+    if (this.state.isIdle) {
+      console.log("2");
+      console.log(this.state.timeIdle);
       this.props.history.push("/");
     } else {
-      this.setState({ showModal: true });
-      this.setState({ timeIdle: 1 });
-      this.idleTimer.reset();
-      this.setState({ isIdle: true });
+      this.setState({ showModal: true, isIdle: true });
+      console.log("1");
+      // Warns the user, and if the modal is still up, kick them back to /
+      sleep(5000).then(() => {
+        if (this.state.showModal) {
+          this.props.history.push("/");
+        }
+      });
     }
   }
 }

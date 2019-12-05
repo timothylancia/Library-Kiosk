@@ -41,6 +41,13 @@ const paragraphStyle = {
 };
 
 //////////////////////////////////////////////////////
+/* Function to make function sleep                  */
+//////////////////////////////////////////////////////
+const sleep = milliseconds => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+};
+
+//////////////////////////////////////////////////////
 /* APU Support Page                                 */
 //////////////////////////////////////////////////////
 export class APUSupport extends React.Component {
@@ -62,9 +69,9 @@ export class APUSupport extends React.Component {
   }
 
   // If modal is closed by the user
-  // Restart timeout timer
+  // Restart timer by setting state
   handleClose() {
-    this.setState({ showModal: false, timeIdle: 5 });
+    this.setState({ showModal: false });
   }
 
   // If user is inactive, go back to home page
@@ -89,6 +96,8 @@ export class APUSupport extends React.Component {
   }
 
   // Starts timeout timer
+  // This timer will restart everytime state is set
+  // So there is no need to call the reset() function
   runTimer() {
     return (
       <IdleTimer
@@ -176,15 +185,18 @@ export class APUSupport extends React.Component {
   // Else, set showModal to true and set timeout timer to 1 minute
   _onIdle(e) {
     console.log("user is idle", e);
-    const isIdle = this.state.isIdle;
-    if (isIdle) {
+    if (this.state.isIdle) {
+      console.log("2");
+      console.log(this.state.timeIdle);
       this.props.history.push("/");
     } else {
-      this.setState({ showModal: true });
-      this.setState({ timeIdle: 1 });
-      this.setState({ isIdle: true });
-      this.idleTimer.reset();
-      console.log("time remaining", this.idleTimer.getRemainingTime());
+      this.setState({ showModal: true, isIdle: true });
+      console.log("1");
+      sleep(5000).then(() => {
+        if (this.state.showModal) {
+          this.props.history.push("/");
+        }
+      });
     }
   }
 }

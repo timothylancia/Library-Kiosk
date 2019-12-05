@@ -50,7 +50,7 @@ class App extends React.Component {
           </div>
           <div style={headerLinks}>
             <a href="/">
-              <img src={APULogo} style={Logo}></img>
+              <img src={APULogo} style={Logo} alt="APU Logo"></img>
             </a>
           </div>
         </div>

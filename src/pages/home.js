@@ -81,6 +81,7 @@ export class home extends React.Component {
                   style={Logo}
                   className="centeredIcon"
                   id="printerIcon"
+                  alt="Printer Icon"
                 ></img>
                 <p className="centeredText" id="11" style={paragraphStyle}>
                   If you need help with using the student printing kiosk or
@@ -102,6 +103,7 @@ export class home extends React.Component {
                   style={Logo}
                   className="centeredIcon"
                   id="computerIcon"
+                  alt="Computer Icon"
                 ></img>
                 <p className="centeredText" id="13" style={paragraphStyle}>
                   If you need help with any of the lab computers or you are
